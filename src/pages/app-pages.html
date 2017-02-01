@@ -31,10 +31,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       fallback-selection="404"
       role="main">
 
-      <my-page-view1 id="home" class="page" app="{{app}}"></my-page-view1>
-      <my-page-view2 id="view2" class="page" app="{{app}}"></my-page-view2>
-      <my-page-view3 id="view3" class="page" app="{{app}}"></my-page-view3>
-      <my-page-view404 id="404" class="page" app="{{app}}"></my-page-view404>
+      <page-home id="home" class="page" app="{{app}}"></page-home>
+      <page-tracker id="tracker" class="page" app="{{app}}"></page-tracker>
+      <page-404 id="404" class="page" app="{{app}}"></page-404>
 
     </iron-pages>
   </template>
@@ -74,8 +73,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _pageFailed() {
         this.page = '404';
       }
-
     });
-
   </script>
 </dom-module>

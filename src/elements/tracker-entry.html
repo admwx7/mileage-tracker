@@ -1,0 +1,81 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/app-layout/app-grid/app-grid-style.html">
+
+<dom-module id="tracker-entry">
+  <template>
+    <style include="app-grid-style">
+      :host {
+        --app-grid-columns: 4;
+        --app-grid-item-height: 50px;
+        --app-grid-gutter: 15px;
+      }
+      paper-button {
+        margin-left: 0;
+      }
+    </style>
+
+    <div class="app-grid">
+      <paper-input
+        class="item"
+        value="{{item.odometer}}"
+        type="number"
+        label="Odometer"
+      ></paper-input>
+      <paper-input
+        class="item"
+        value="{{item.startDate}}"
+        label="Start Date"
+      ></paper-input>
+      <paper-input
+        class="item"
+        value="{{item.endDate}}"
+        label="End Date"
+      ></paper-input>
+      <div class="item">
+        <!-- Add an option to set location -->
+      </div>
+      <paper-input
+        class="item"
+        value="{{item.distance}}"
+        label="Distance (miles)"
+        type="number"
+      ></paper-input>
+      <paper-input
+        class="item"
+        value="{{item.startTime}}"
+        label="Start Time"
+      ></paper-input>
+      <paper-input
+        class="item"
+        value="{{item.endTime}}"
+        label="End Time"
+      ></paper-input>
+      <paper-button
+        class="item"
+        raised
+        type="submit"
+        on-tap="_fireSave"
+      >[[saveButtonText]]</paper-button>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'tracker-entry',
+      properties: {
+        item: {
+          type: Object,
+          value: () => ({})
+        },
+        saveButtonText: {
+          type: String,
+          value: 'Save'
+        }
+      },
+      _fireSave() {
+        this.fire('save', this.item);
+      }
+    });
+  </script>
+</dom-module>
