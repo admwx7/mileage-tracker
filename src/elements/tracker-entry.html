@@ -1,63 +1,67 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/paper-input/paper-input.html">
-<link rel="import" href="/bower_components/paper-button/paper-button.html">
-<link rel="import" href="/bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
 
 <dom-module id="tracker-entry">
   <template>
     <style include="app-grid-style">
       :host {
-        --app-grid-columns: 4;
-        --app-grid-item-height: 50px;
+        --app-grid-columns: 7;
         --app-grid-gutter: 15px;
+        --app-grid-expandible-item-columns: 2;
+      }
+      .dual-column {
+        @apply --app-grid-expandible-item;
       }
       paper-button {
         margin-left: 0;
       }
     </style>
 
+    <!-- TODO: add slim view support -->
     <div class="app-grid">
-      <paper-input
-        class="item"
-        value="{{item.odometer}}"
-        type="number"
-        label="Odometer"
-      ></paper-input>
-      <paper-input
-        class="item"
-        value="{{item.startDate}}"
-        label="Start Date"
-      ></paper-input>
-      <paper-input
-        class="item"
-        value="{{item.endDate}}"
-        label="End Date"
-      ></paper-input>
-      <div class="item">
-        <!-- Add an option to set location -->
+      <div class="item dual-column">
+        <span>Odometer Reading</span>
+        <paper-input
+          value="{{item.odometerStart}}"
+          required
+          type="number"
+          label="Start"
+        ></paper-input>
+        <paper-input
+          value="{{item.odometerEnd}}"
+          type="number"
+          label="End"
+        ></paper-input>
       </div>
-      <paper-input
-        class="item"
-        value="{{item.distance}}"
-        label="Distance (miles)"
-        type="number"
-      ></paper-input>
-      <paper-input
-        class="item"
-        value="{{item.startTime}}"
-        label="Start Time"
-      ></paper-input>
-      <paper-input
-        class="item"
-        value="{{item.endTime}}"
-        label="End Time"
-      ></paper-input>
-      <paper-button
-        class="item"
-        raised
-        type="submit"
-        on-tap="_fireSave"
-      >[[saveButtonText]]</paper-button>
+      <div class="item dual-column">
+        <span>Date</span>
+        <paper-input
+          value="{{item.startDate}}"
+          required
+          label="Start"
+        ></paper-input>
+        <paper-input
+          value="{{item.endDate}}"
+          label="End"
+        ></paper-input>
+      </div>
+      <div class="item dual-column">
+        <!-- TODO: upload hotel PDF -->
+        <!-- TODO: add start and end locations -->
+      </div>
+      <div class="item">
+        <!-- TODO: add edit support -->
+        <!-- TODO: add remove support -->
+        <!-- TODO: add readOnly support -->
+        <paper-button
+          class="item"
+          raised
+          type="submit"
+          on-tap="_fireSave"
+        >[[saveButtonText]]</paper-button>
+      </div>
     </div>
   </template>
   <script>
@@ -72,6 +76,9 @@
           type: String,
           value: 'Save'
         }
+      },
+      clear() {
+        this.set('item', {});
       },
       _fireSave() {
         this.fire('save', this.item);

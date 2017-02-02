@@ -8,9 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/polymerfire/firebase-query.html">
-<link rel="import" href="/bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../theme/shared-styles.html">
 <link rel="import" href="../../elements/tracker-entry.html">
 
@@ -27,21 +27,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-auth user="{{user}}"></firebase-auth>
     <firebase-query
       id="query"
-      path="/trips/[[user.uid]]"
-      data="{{data}}"
+      path="/users/[[user.uid]]/trips"
+      data="{{trips}}"
     ></firebase-query>
 
-    <h1>Track Your Mileage</h1>
+    <h1>Track Your Trip</h1>
 
     <tracker-entry
-      item="{{entry}}"
+      id="entry"
       on-save="_save"
     ></tracker-entry>
 
-    <h2>Mileage History</h2>
-    <template is="dom-repeat" items="{{data}}">
+    <h2>Trip History</h2>
+    <template is="dom-repeat" items="{{trips}}" as="trip">
       <tracker-entry
-        item="{{item}}"
+        item="{{trip}}"
       ></tracker-entry>
     </template>
   </template>
@@ -51,15 +51,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'page-tracker',
 
       properties: {
-        data: {
+        trips: {
           type: Array,
           value: () => []
-        },
-        entry: Object
+        }
       },
       _save(event, detail) {
-        this.push('data', detail);
-        this.$.query.save().then(resp => console.log('response', resp), err => console.log('error', err));
+        this.$.query.ref.push(detail);
+        this.$.entry.clear();
       }
     });
   </script>
