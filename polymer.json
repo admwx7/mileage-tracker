@@ -5,13 +5,13 @@
     "src/pages/page-home/page-home.html",
     "src/pages/page-404/page-404.html"
   ],
-  "sourceGlobs": [
+  "sources": [
     "data/**/*",
     "images/**/*",
     "src/**/*",
     "bower.json"
   ],
-  "includeDependencies": [
+  "extraDependencies": [
     "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js",
     "bower_components/babel-polyfill/browser-polyfill.js",

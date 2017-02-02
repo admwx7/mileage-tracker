@@ -48,63 +48,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="msapplication-TileColor" content="#3f51b5">
     <meta name="msapplication-tap-highlight" content="no">
 
-    <link rel="import" href="/src/my-app.html" async>
-    <link rel="stylesheet" type="text/css" href="/bower_components/SpinKit/css/spinners/7-three-bounce.css">
-    <link rel="stylesheet" type="text/css" href="/bower_components/normalize-css/normalize.css">
-
-    <style>
-      body {
-        font-family: 'Roboto', 'Noto', sans-serif;
-        line-height: 1.5;
-        min-height: 100vh;
-        background-color: #f5f5f5;
-        /* Grey 100 */
-        /* Remove highlight when tapping on elements. */
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        /* Font smoothing for OS X */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        /* Text adjust is set to 100% to avoid iOS Safari bugs where the font-size is
-           sometimes not restored during orientation. */
-        -webkit-text-size-adjust: 100%;
-      }
-      /* Styling for render while resources are loading. For browsers don't support native Web Components. */
-
-      my-app[unresolved] {
-        display: block;
-        min-height: 100vh;
-      }
-
-      my-app[unresolved] .main {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-    </style>
-
-    <!-- <script src="//code.jquery.com/jquery-latest.min.js"></script> -->
-    <!-- <script src="//assets.adobedtm.com/0f7d5fd422d067d1a48a3d9f0872ab4d51ac4f95/satelliteLib-440d70bb55778134e1e11b384f08a124dafdb017.js"></script> -->
-  </head>
-
-  <body unresolved>
-    <my-app unresolved>
-      <div class="main">
-        <!-- Loading Indicator -->
-        <div class="sk-three-bounce">
-          <div class="sk-child sk-bounce1"></div>
-          <div class="sk-child sk-bounce2"></div>
-          <div class="sk-child sk-bounce3"></div>
-        </div>
-      </div>
-    </my-app>
-
     <script src="/bower_components/babel-polyfill/browser-polyfill.js"></script>
     <script>
       // Global Constants
@@ -114,8 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // Setup Polymer options
       window.Polymer = {
         dom: 'shadow',
-        lazyRegister: 'max',
-        useNativeCSSProperties: true
+        lazyRegister: true
       };
 
       // Load webcomponentsjs polyfill if browser does not support native Web Components
@@ -161,6 +103,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
     </script>
-  </body>
 
+    <link rel="import" href="/src/my-app.html">
+    <link rel="stylesheet" type="text/css" href="/bower_components/SpinKit/css/spinners/7-three-bounce.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/normalize-css/normalize.css">
+
+    <style>
+      body {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        line-height: 1.5;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+        /* Grey 100 */
+        /* Remove highlight when tapping on elements. */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        /* Font smoothing for OS X */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        /* Text adjust is set to 100% to avoid iOS Safari bugs where the font-size is
+           sometimes not restored during orientation. */
+        -webkit-text-size-adjust: 100%;
+      }
+      /* Styling for render while resources are loading. For browsers don't support native Web Components. */
+
+      my-app[unresolved] {
+        display: block;
+        min-height: 100vh;
+      }
+
+      my-app[unresolved] .main {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+
+  <body unresolved>
+    <my-app unresolved>
+      <div class="main">
+        <!-- Loading Indicator -->
+        <div class="sk-three-bounce">
+          <div class="sk-child sk-bounce1"></div>
+          <div class="sk-child sk-bounce2"></div>
+          <div class="sk-child sk-bounce3"></div>
+        </div>
+      </div>
+    </my-app>
+  </body>
 </html>
