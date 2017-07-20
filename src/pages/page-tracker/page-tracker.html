@@ -22,6 +22,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+      .list {
+        list-style: none;
+        padding-left: 0;
+      }
+      h1 {
+        padding-left: 15px;
+      }
     </style>
 
     <firebase-auth user="{{user}}"></firebase-auth>
@@ -33,17 +40,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <h1>Track Your Trip</h1>
 
-    <tracker-entry
-      id="entry"
-      on-save="_save"
-    ></tracker-entry>
-
-    <h2>Trip History</h2>
-    <template is="dom-repeat" items="{{trips}}" as="trip">
-      <tracker-entry
-        item="{{trip}}"
-      ></tracker-entry>
-    </template>
+    <ul class="list">
+      <li>
+        <tracker-entry
+          id="new-entry"
+          on-save-trip="_saveTrip"
+          can-edit
+          disable-delete
+        ></tracker-entry>
+      </li>
+      <template is="dom-repeat" items="{{trips}}" as="trip">
+        <li>
+          <tracker-entry
+            item="{{trip}}"
+            on-delete-trip="_deleteTrip"
+            on-save-trip="_updateTrip"
+          ></tracker-entry>
+        </li>
+      </template>
+    </ul>
   </template>
 
   <script>
@@ -56,9 +71,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: () => []
         }
       },
-      _save(event, detail) {
-        this.$.query.ref.push(detail);
-        this.$.entry.clear();
+      _deleteTrip(event, detail) {
+        console.log('delete', detail);
+      },
+      _saveTrip(event, detail) {
+        // this.$.query.ref.push(detail);
+        this.$['new-entry'].clear();
+      },
+      _updateTrip(event, detail) {
+        console.log('update', detail);
       }
     });
   </script>

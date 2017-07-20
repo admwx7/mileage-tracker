@@ -2,26 +2,51 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
 
 <dom-module id="tracker-entry">
   <template>
     <style include="app-grid-style">
       :host {
-        --app-grid-columns: 7;
+        display: block;
+        position: relative;
+
+        --app-grid-columns: 3;
         --app-grid-gutter: 15px;
-        --app-grid-expandible-item-columns: 2;
-      }
-      .dual-column {
-        @apply --app-grid-expandible-item;
       }
       paper-button {
         margin-left: 0;
+      }
+      iron-icon {
+        cursor: pointer;
+      }
+      iron-icon[hidden] {
+        display: none;
+      }
+      .action-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      ul {
+        list-style: none;
+        padding-left: 0;
+        padding-right: 5px;
+        padding-top: 5px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      li {
+        padding-top: 5px;
       }
     </style>
 
     <!-- TODO: add slim view support -->
     <div class="app-grid">
-      <div class="item dual-column">
+      <div class="item expanded-column">
         <span>Odometer Reading</span>
         <paper-input
           value="{{item.odometerStart}}"
@@ -35,7 +60,7 @@
           label="End"
         ></paper-input>
       </div>
-      <div class="item dual-column">
+      <div class="item expanded-column">
         <span>Date</span>
         <paper-input
           value="{{item.startDate}}"
@@ -47,41 +72,111 @@
           label="End"
         ></paper-input>
       </div>
-      <div class="item dual-column">
-        <!-- TODO: upload hotel PDF -->
-        <!-- TODO: add start and end locations -->
+      <div class="item expanded-column">
+        <!-- icons:room -->
+        <span>Location</span>
+        <paper-input
+          value="{{item.startLocation}}"
+          label="Start">
+        </paper-input>
+        <paper-input
+          value="{{item.endLocation}}"
+          label="End">
+        </paper-input>
       </div>
-      <div class="item">
-        <!-- TODO: add edit support -->
-        <!-- TODO: add remove support -->
-        <!-- TODO: add readOnly support -->
-        <paper-button
-          class="item"
-          raised
-          type="submit"
-          on-tap="_fireSave"
-        >[[saveButtonText]]</paper-button>
-      </div>
+    </div>
+    <div class="action-button">
+      <paper-fab
+        icon="[[_getActionIcon(opened)]]"
+        mini
+        on-tap="toggleMenu"
+        class="dropdown-trigger"
+      ></paper-fab>
+      <iron-dropdown
+        no-overlap
+        horizontal-align="right"
+        opened="{{opened}}"
+        >
+        <ul class="dropdown-content" on-tap="closeMenu">
+          <li hidden$="[[!canEdit]]">
+            <iron-icon icon$="[[_getFileIcon(item.file)]]"></iron-icon>
+          </li>
+          <li hidden$="[[canEdit]]">
+            <iron-icon
+              icon="icons:create"
+              on-tap="enableEdit"
+            ></iron-icon>
+          </li>
+          <li hidden$="[[!canEdit]]">
+            <iron-icon
+              icon="icons:save"
+              on-tap="save"
+            ></iron-icon>
+          </li>
+          <li>
+            <iron-icon
+              hidden$="[[disableDelete]]"
+              icon="icons:delete"
+              on-tap="delete"
+            ></iron-icon>
+          </li>
+        </ul>
+      </iron-dropdown>
     </div>
   </template>
   <script>
     Polymer({
       is: 'tracker-entry',
       properties: {
+        // Add read-only support
         item: {
           type: Object,
-          value: () => ({})
+          value: () => ({}),
+          notify: true
         },
         saveButtonText: {
           type: String,
           value: 'Save'
+        },
+        canEdit: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        disableDelete: {
+          type: Boolean,
+          value: false
         }
       },
       clear() {
         this.set('item', {});
       },
-      _fireSave() {
-        this.fire('save', this.item);
+      closeMenu() {
+        this.opened = false;
+      },
+      delete() {
+        this.fire('delete-trip', this.item);
+      },
+      enableEdit() {
+        this.canEdit = true;
+      },
+      save() {
+        this.fire('save-trip', this.item);
+        this.canEdit = false;
+      },
+      toggleMenu() {
+        this.opened = !this.opened;
+      },
+      _getActionIcon(opened) {
+        return 'icons:' + (opened ? 'remove' : 'add');
+      },
+      _getFileIcon(file) {
+        return 'icons:file-' + (file ? 'download' : 'upload');
       }
     });
   </script>
